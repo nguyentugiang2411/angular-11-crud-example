@@ -1,28 +1,34 @@
 ﻿import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 // used to create fake backend
-import { fakeBackendProvider } from './_helpers';
+import { fakeBackendProvider } from './core/guards';
 
 import { AppRoutingModule } from './app-routing.module';
-import { ErrorInterceptor } from './_helpers';
+import { ErrorInterceptor } from './core/interceptor/index';
 import { AppComponent } from './app.component';
-import { AlertComponent } from './_components';
-import { HomeComponent } from './home';
+import { ComponentsModule } from './core/components/index';
+import { HomeComponent } from './features/home';
+import { TestPageComponent } from './features/test/index';
+import { CommonModule } from '@angular/common';
+
 
 @NgModule({
     imports: [
+        CommonModule,
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        AppRoutingModule
+        AppRoutingModule,
+        ComponentsModule,
+        FormsModule
     ],
     declarations: [
         AppComponent,
-        AlertComponent,
-        HomeComponent
+        HomeComponent,
+        TestPageComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
