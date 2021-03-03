@@ -1,15 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { AlertComponent, ModalComponent } from './index';
 
 @NgModule({
-  declarations: [
-    AlertComponent,
-    ModalComponent
-  ],
+  declarations: [],
   imports: [],
-  exports: [
-    AlertComponent,
-    ModalComponent
-  ]
+  exports: [],
 })
-export class ComponentsModule { }
+export class ComponentsModule {}

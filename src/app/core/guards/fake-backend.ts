@@ -4,18 +4,18 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, materialize, dematerialize } from 'rxjs/operators';
 
 import { Role } from '@app/core/models';
+import { usersKey } from '../constants/ntg-constant';
 
 // array in local storage for registered users
-const usersKey = 'angular-11-crud-example-users';
-const usersJSON = localStorage.getItem(usersKey);
-let users: any[] = usersJSON ? JSON.parse(usersJSON) : [{
+// const usersKey = 'angular-11-crud-example-users';
+let users: any[] = [{
     id: 1,
     title: 'Mr',
-    firstName: 'Joe',
+    firstName: 'giang',
     lastName: 'Bloggs',
-    email: 'joe@bloggs.com',
+    email: 'nguyentugiang2411@gmail.com',
     role: Role.User,
-    password: 'joe123'
+    password: 'admin'
 }];
 
 @Injectable()
@@ -37,10 +37,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return updateUser();
                 case url.match(/\/users\/\d+$/) && method === 'DELETE':
                     return deleteUser();
+                case url.match('users/authenticate') && method === 'POST':
+                    return authenticate();
                 default:
                     // pass through any requests not handled above
                     return next.handle(request);
-            }    
+            }
         }
 
         // route functions
@@ -94,6 +96,29 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             users = users.filter(x => x.id !== idFromUrl());
             localStorage.setItem(usersKey, JSON.stringify(users));
             return ok();
+        }
+
+        function authenticate() {
+            let filteredUsers = users.filter(user => {
+                return user.username === request.body.username && user.password === request.body.password;
+            });
+
+            if (filteredUsers.length) {
+                // if login details are valid return 200 OK with user details and fake jwt token
+                let user = filteredUsers[0];
+                let body = {
+                    id: user.id,
+                    username: user.username,
+                    firstName: user.firstName,
+                    lastName: user.lastName,
+                    token: 'fake-jwt-token'
+                };
+
+                return ok(basicDetails(body));
+            } else {
+                // else return 400 bad request
+                return throwError({ error: { message: 'Username or password is incorrect' } });
+            }
         }
 
         // helper functions

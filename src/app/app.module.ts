@@ -9,16 +9,12 @@ import { AuthGuard, fakeBackendProvider } from './core/guards';
 import { AppRoutingModule } from './app-routing.module';
 import { ErrorInterceptor, JwtInterceptor } from './core/interceptor/index';
 import { AppComponent } from './app.component';
-import { ComponentsModule } from './core/components/index';
+import { AlertComponent, ComponentsModule, ModalComponent } from './core/components/index';
 import { HomeComponent } from './features/home';
 import { TestPageComponent } from './features/test/index';
 import { CommonModule } from '@angular/common';
 import { LoginComponent } from './features/login';;
-import { FooterComponent } from './shared/components/footer/footer.component'
-;
-import { HeaderComponent } from './shared/components/header/header.component'
 import { SharedModule } from './shared/shared.module';
-
 
 @NgModule({
   imports: [
@@ -27,7 +23,6 @@ import { SharedModule } from './shared/shared.module';
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    ComponentsModule,
     FormsModule,
     SharedModule,
   ],
@@ -35,7 +30,9 @@ import { SharedModule } from './shared/shared.module';
     AppComponent,
     HomeComponent,
     LoginComponent,
-    TestPageComponent
+    TestPageComponent,
+    AlertComponent,
+    ModalComponent
   ],
   providers: [
     AuthGuard,

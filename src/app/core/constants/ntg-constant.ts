@@ -1,0 +1,1 @@
+export const usersKey = 'angular-11-crud-example-users';
